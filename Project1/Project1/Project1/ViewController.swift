@@ -14,6 +14,9 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        title = "Storm Viewer"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let files = try! fm.contentsOfDirectory(atPath: path)
@@ -37,5 +40,15 @@ class ViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // 1: try loading the "Detail" view controller and typecasting it to be DetailViewController
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            // 2: success! Set its selectedImage property
+            vc.selectedImage = pictures[indexPath.row]
+            
+            // 3: now push it onto the navigation controller
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }
 
