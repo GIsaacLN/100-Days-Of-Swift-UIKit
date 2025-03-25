@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     var countries = [String]()
     var score = 0
     var correctAnswer = 0
+    var currentQuestion = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,13 @@ class ViewController: UIViewController {
     }
 
     func askQuestion(action: UIAlertAction? = nil) {
+        if currentQuestion > 10 {
+            let ac = UIAlertController(title: "Game Over", message: "Your Final Score is \(score)", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Play Again", style: .default, handler: restartGame))
+            present(ac, animated: true)
+            return
+        }
+        
         countries.shuffle()
         correctAnswer = Int.random(in: 0..<3)
         
@@ -40,21 +48,35 @@ class ViewController: UIViewController {
         button2.setImage(UIImage(named: countries[1]), for: .normal)
         button3.setImage(UIImage(named: countries[2]), for: .normal)
         
-        title = countries[correctAnswer].uppercased()
+        title = countries[correctAnswer].uppercased() + "  |  Score: \(score)"
+        
+        currentQuestion += 1
+    }
+    
+    func restartGame(action: UIAlertAction? = nil) {
+        score = 0
+        currentQuestion = 1
+        askQuestion()
     }
     
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
-        
+        var message: String
         if sender.tag == correctAnswer {
             title = "Correct!"
+            message = "Your score is \(score)"
             score += 1
         } else {
             title = "Incorrect!"
+            message =
+                        """
+                        Thats the flag of \(countries[sender.tag].uppercased()) 
+                        Your score is \(score)
+                        """
             score -= 1
         }
         
-        let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
         present(ac, animated: true)
     }
