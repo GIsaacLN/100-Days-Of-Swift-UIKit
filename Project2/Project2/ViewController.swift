@@ -15,13 +15,15 @@ class ViewController: UIViewController {
     var countries = [String]()
     var score = 0
     var correctAnswer = 0
-    var currentQuestion = 1
+    var currentQuestion = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
 
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(getScore))
+        
         button1.layer.borderWidth = 1
         button2.layer.borderWidth = 1
         button3.layer.borderWidth = 1
@@ -34,6 +36,8 @@ class ViewController: UIViewController {
     }
 
     func askQuestion(action: UIAlertAction? = nil) {
+        currentQuestion += 1
+
         if currentQuestion > 10 {
             let ac = UIAlertController(title: "Game Over", message: "Your Final Score is \(score)", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Play Again", style: .default, handler: restartGame))
@@ -48,14 +52,12 @@ class ViewController: UIViewController {
         button2.setImage(UIImage(named: countries[1]), for: .normal)
         button3.setImage(UIImage(named: countries[2]), for: .normal)
         
-        title = countries[correctAnswer].uppercased() + "  |  Score: \(score)"
-        
-        currentQuestion += 1
+        title = countries[correctAnswer].uppercased()
     }
     
     func restartGame(action: UIAlertAction? = nil) {
         score = 0
-        currentQuestion = 1
+        currentQuestion = 0
         askQuestion()
     }
     
@@ -63,17 +65,17 @@ class ViewController: UIViewController {
         var title: String
         var message: String
         if sender.tag == correctAnswer {
+            score += 1
             title = "Correct!"
             message = "Your score is \(score)"
-            score += 1
         } else {
+            score -= 1
             title = "Incorrect!"
             message =
                         """
                         Thats the flag of \(countries[sender.tag].uppercased()) 
                         Your score is \(score)
                         """
-            score -= 1
         }
         
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -81,6 +83,16 @@ class ViewController: UIViewController {
         present(ac, animated: true)
     }
     
-
+    @objc func getScore() {
+        print("Score: \(score)")
+        let message =   """
+                        Your score is \(score)
+                        Question \(currentQuestion) out of 10
+                        """
+        
+        let ac = UIAlertController(title: "Current Score", message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Close", style: .default))
+        present(ac, animated: true)
+    }
 }
 
