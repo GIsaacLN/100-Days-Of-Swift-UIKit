@@ -12,6 +12,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     var progressView: UIProgressView!
     var websites = ["hivecents.com", "konpa.app"]
+    var selectedWebsite: String?
     
     override func loadView() {
         webView = WKWebView()
@@ -32,13 +33,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
-        toolbarItems = [progressButton, spacer, refresher]
+        let back = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: webView, action: #selector(webView.goBack))
+        let forward = UIBarButtonItem(image: UIImage(systemName: "chevron.right"), style: .plain, target: webView, action: #selector(webView.goForward))
+        
+        toolbarItems = [back, forward, spacer, progressButton, spacer, refresher]
         navigationController?.isToolbarHidden = false
         
-        
-        
-        let url = URL(string: "https://" + websites[0])!
-        webView.load(URLRequest(url: url))
+        if let selectedWebsite = selectedWebsite {
+            let url = URL(string: "https://" + selectedWebsite)!
+            webView.load(URLRequest(url: url))
+        }
         webView.allowsBackForwardNavigationGestures = true
     }
     
@@ -79,6 +83,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
                 }
             }
         }
+        
+        let ac = UIAlertController(title: "Page can't be loaded", message: "This page is insecure", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Ok", style: .cancel))
+        present(ac, animated: true)
         
         decisionHandler(.cancel)
     }
