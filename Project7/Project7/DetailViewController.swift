@@ -29,7 +29,15 @@ class DetailViewController: UIViewController {
         <style> body { font-size: 150%; } </style>
         </head>
         <body>
+        <h2>
+        \(detailItem.title)
+        </h2>
+        <h3>
+        \(detailItem.signatureCount) people have signed this petition
+        </h3
+        <p>
         \(detailItem.body)
+        </p>
         </body>
         </html>
         """
