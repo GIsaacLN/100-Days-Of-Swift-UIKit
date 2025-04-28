@@ -41,14 +41,18 @@ class ViewController: UITableViewController {
     }
     
     func search(_ searchTerm: String) {
-        if searchTerm == ""{
-            filteredPetitions = petitions
-        } else {
-            filteredPetitions = petitions.filter { petition in
-                petition.body.contains(searchTerm)
+        DispatchQueue.global(qos: .background).async {
+            if searchTerm == ""{
+                self.filteredPetitions = self.petitions
+            } else {
+                self.filteredPetitions = self.petitions.filter { petition in
+                    petition.body.contains(searchTerm)
+                }
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
-        tableView.reloadData()
     }
     
     @objc func promptSearch() {
