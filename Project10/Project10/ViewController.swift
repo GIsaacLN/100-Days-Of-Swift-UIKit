@@ -42,16 +42,26 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let person = people[indexPath.item]
         
-        let ac = UIAlertController(title: "Rename the person", message: nil, preferredStyle: .alert)
-        ac.addTextField()
-        
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self, weak ac] alert in
-            guard let newName = ac?.textFields?[0].text else { return }
-            person.name = newName
+        let ac = UIAlertController(title: "What you want to do?", message: "Choose what you want to do with the person", preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "Rename", style: .default, handler: { [weak self] _ in
+            let ac = UIAlertController(title: "Rename the person", message: nil, preferredStyle: .alert)
+            ac.addTextField()
             
+            ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self, weak ac] alert in
+                guard let newName = ac?.textFields?[0].text else { return }
+                person.name = newName
+                
+                self?.collectionView.reloadData()
+            }))
+            
+            self?.present(ac, animated: true)
+        }))
+        ac.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+            self?.people.remove(at: indexPath.item)
             self?.collectionView.reloadData()
         }))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
         present(ac, animated: true)
     }
@@ -59,6 +69,9 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     @objc func addNewPerson() {
         let picker = UIImagePickerController()
         picker.allowsEditing = true
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            picker.sourceType = .camera
+        }
         picker.delegate = self
         present(picker, animated: true)
     }

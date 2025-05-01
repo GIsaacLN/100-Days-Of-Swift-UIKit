@@ -7,32 +7,32 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		EC2D3B7B2DC18E0D00B02A62 /* Project10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project10.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC417AF22D8C89B7003D8605 /* Project1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		EC2D3B8D2DC18E0F00B02A62 /* Exceptions for "Project10" folder in "Project10" target */ = {
+		EC417B042D8C89B9003D8605 /* Exceptions for "Project1" folder in "Project1" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = EC2D3B7A2DC18E0D00B02A62 /* Project10 */;
+			target = EC417AF12D8C89B7003D8605 /* Project1 */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		EC2D3B7D2DC18E0D00B02A62 /* Project10 */ = {
+		EC417AF42D8C89B7003D8605 /* Project1 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				EC2D3B8D2DC18E0F00B02A62 /* Exceptions for "Project10" folder in "Project10" target */,
+				EC417B042D8C89B9003D8605 /* Exceptions for "Project1" folder in "Project1" target */,
 			);
-			path = Project10;
+			path = Project1;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		EC2D3B782DC18E0D00B02A62 /* Frameworks */ = {
+		EC417AEF2D8C89B7003D8605 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,18 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EC2D3B722DC18E0D00B02A62 = {
+		EC417AE92D8C89B7003D8605 = {
 			isa = PBXGroup;
 			children = (
-				EC2D3B7D2DC18E0D00B02A62 /* Project10 */,
-				EC2D3B7C2DC18E0D00B02A62 /* Products */,
+				EC417AF42D8C89B7003D8605 /* Project1 */,
+				EC417AF32D8C89B7003D8605 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		EC2D3B7C2DC18E0D00B02A62 /* Products */ = {
+		EC417AF32D8C89B7003D8605 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EC2D3B7B2DC18E0D00B02A62 /* Project10.app */,
+				EC417AF22D8C89B7003D8605 /* Project1.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,64 +61,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EC2D3B7A2DC18E0D00B02A62 /* Project10 */ = {
+		EC417AF12D8C89B7003D8605 /* Project1 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EC2D3B8E2DC18E0F00B02A62 /* Build configuration list for PBXNativeTarget "Project10" */;
+			buildConfigurationList = EC417B052D8C89B9003D8605 /* Build configuration list for PBXNativeTarget "Project1" */;
 			buildPhases = (
-				EC2D3B772DC18E0D00B02A62 /* Sources */,
-				EC2D3B782DC18E0D00B02A62 /* Frameworks */,
-				EC2D3B792DC18E0D00B02A62 /* Resources */,
+				EC417AEE2D8C89B7003D8605 /* Sources */,
+				EC417AEF2D8C89B7003D8605 /* Frameworks */,
+				EC417AF02D8C89B7003D8605 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				EC2D3B7D2DC18E0D00B02A62 /* Project10 */,
+				EC417AF42D8C89B7003D8605 /* Project1 */,
 			);
-			name = Project10;
+			name = Project1;
 			packageProductDependencies = (
 			);
-			productName = Project10;
-			productReference = EC2D3B7B2DC18E0D00B02A62 /* Project10.app */;
+			productName = Project1;
+			productReference = EC417AF22D8C89B7003D8605 /* Project1.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		EC2D3B732DC18E0D00B02A62 /* Project object */ = {
+		EC417AEA2D8C89B7003D8605 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
-					EC2D3B7A2DC18E0D00B02A62 = {
+					EC417AF12D8C89B7003D8605 = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
-			buildConfigurationList = EC2D3B762DC18E0D00B02A62 /* Build configuration list for PBXProject "Project10" */;
+			buildConfigurationList = EC417AED2D8C89B7003D8605 /* Build configuration list for PBXProject "Project1" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = EC2D3B722DC18E0D00B02A62;
+			mainGroup = EC417AE92D8C89B7003D8605;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = EC2D3B7C2DC18E0D00B02A62 /* Products */;
+			productRefGroup = EC417AF32D8C89B7003D8605 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EC2D3B7A2DC18E0D00B02A62 /* Project10 */,
+				EC417AF12D8C89B7003D8605 /* Project1 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		EC2D3B792DC18E0D00B02A62 /* Resources */ = {
+		EC417AF02D8C89B7003D8605 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -128,7 +128,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EC2D3B772DC18E0D00B02A62 /* Sources */ = {
+		EC417AEE2D8C89B7003D8605 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +138,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		EC2D3B8F2DC18E0F00B02A62 /* Debug */ = {
+		EC417B062D8C89B9003D8605 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -147,8 +147,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 457CNACK2W;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Project10/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "We need to save the pictures you take";
+				INFOPLIST_FILE = Project1/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -159,7 +158,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = gisaaclopez.Project10;
+				PRODUCT_BUNDLE_IDENTIFIER = gisaaclopez..Project1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -167,7 +166,7 @@
 			};
 			name = Debug;
 		};
-		EC2D3B902DC18E0F00B02A62 /* Release */ = {
+		EC417B072D8C89B9003D8605 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -176,8 +175,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 457CNACK2W;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Project10/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "We need to save the pictures you take";
+				INFOPLIST_FILE = Project1/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -188,7 +186,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = gisaaclopez.Project10;
+				PRODUCT_BUNDLE_IDENTIFIER = gisaaclopez..Project1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -196,7 +194,7 @@
 			};
 			name = Release;
 		};
-		EC2D3B912DC18E0F00B02A62 /* Debug */ = {
+		EC417B082D8C89B9003D8605 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -259,7 +257,7 @@
 			};
 			name = Debug;
 		};
-		EC2D3B922DC18E0F00B02A62 /* Release */ = {
+		EC417B092D8C89B9003D8605 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -318,25 +316,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EC2D3B762DC18E0D00B02A62 /* Build configuration list for PBXProject "Project10" */ = {
+		EC417AED2D8C89B7003D8605 /* Build configuration list for PBXProject "Project1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EC2D3B912DC18E0F00B02A62 /* Debug */,
-				EC2D3B922DC18E0F00B02A62 /* Release */,
+				EC417B082D8C89B9003D8605 /* Debug */,
+				EC417B092D8C89B9003D8605 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EC2D3B8E2DC18E0F00B02A62 /* Build configuration list for PBXNativeTarget "Project10" */ = {
+		EC417B052D8C89B9003D8605 /* Build configuration list for PBXNativeTarget "Project1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EC2D3B8F2DC18E0F00B02A62 /* Debug */,
-				EC2D3B902DC18E0F00B02A62 /* Release */,
+				EC417B062D8C89B9003D8605 /* Debug */,
+				EC417B072D8C89B9003D8605 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = EC2D3B732DC18E0D00B02A62 /* Project object */;
+	rootObject = EC417AEA2D8C89B7003D8605 /* Project object */;
 }
