@@ -28,13 +28,25 @@ extension GameError: LocalizedError {
 
 class ViewController: UITableViewController {
     var allWords = [String]()
-    var usedWords = [String]()
+    var usedWords = [String]() {
+        didSet {
+            let defaults = UserDefaults.standard
+            defaults.set(usedWords, forKey: "usedwords")
+        }
+    }
+    var curWord: String? {
+        didSet {
+            let defaults = UserDefaults.standard
+            defaults.set(curWord, forKey: "currentword")
+            title = curWord
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promptForAnswer))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Restart", style: .plain, target: self, action: #selector(startGame))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Restart", style: .plain, target: self, action: #selector(restartGame))
         
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startWordsURL, encoding: .utf8) {
@@ -46,11 +58,18 @@ class ViewController: UITableViewController {
             allWords = ["apple", "banana", "cherry"]
         }
         
-        startGame()
+        let defaults = UserDefaults.standard
+        if let curWord = defaults.string(forKey: "currentword") {
+            self.curWord = curWord
+        } else {
+            self.curWord = allWords.randomElement()
+        }
+        
+        usedWords = defaults.object(forKey: "usedwords") as? [String] ?? [String]()
     }
     
-    @objc func startGame() {
-        title = allWords.randomElement()
+    @objc func restartGame() {
+        curWord = allWords.randomElement()
         usedWords.removeAll(keepingCapacity: true)
         tableView.reloadData()
     }

@@ -14,6 +14,12 @@ class ViewController: UIViewController {
     
     var countries = [String]()
     var score = 0
+    var highscore = 0 {
+        didSet {
+            let defaults = UserDefaults()
+            defaults.set(highscore, forKey: "highscore")
+        }
+    }
     var correctAnswer = 0
     var currentQuestion = 0
     
@@ -32,6 +38,8 @@ class ViewController: UIViewController {
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
         
+        let defaults = UserDefaults.standard
+        highscore = defaults.integer(forKey: "highscore")
         askQuestion()
     }
 
@@ -39,7 +47,18 @@ class ViewController: UIViewController {
         currentQuestion += 1
 
         if currentQuestion > 10 {
-            let ac = UIAlertController(title: "Game Over", message: "Your Final Score is \(score)", preferredStyle: .alert)
+            var message = """
+                        Your Final Score is \(score)
+                        Your Highscore is: \(highscore)
+                        """
+            if score > highscore {
+                highscore = score
+                message = """
+                        You beat your highscore
+                        Your new highscore is: \(highscore)
+                        """
+            }
+            let ac = UIAlertController(title: "Game Over", message: message, preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Play Again", style: .default, handler: restartGame))
             present(ac, animated: true)
             return
