@@ -71,6 +71,12 @@ class ViewController: UIViewController {
         button2.setImage(UIImage(named: countries[1]), for: .normal)
         button3.setImage(UIImage(named: countries[2]), for: .normal)
         
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.button1.transform = .identity
+            self?.button2.transform = .identity
+            self?.button3.transform = .identity
+        }
+        
         title = countries[correctAnswer].uppercased()
     }
     
@@ -95,6 +101,10 @@ class ViewController: UIViewController {
                         Thats the flag of \(countries[sender.tag].uppercased()) 
                         Your score is \(score)
                         """
+        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 10) {
+            sender.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         }
         
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
