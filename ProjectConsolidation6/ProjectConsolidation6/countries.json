@@ -1,0 +1,94 @@
+{
+  "countries": [
+    {
+      "name": "Argentina",
+      "capital": "Buenos Aires",
+      "size": "2,780,400 km²",
+      "population": 45376763,
+      "currency": "Argentine peso",
+      "president": "Javier Milei",
+      "flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Flag_of_Argentina.svg/330px-Flag_of_Argentina.svg.png"
+    },
+    {
+      "name": "Canada",
+      "capital": "Ottawa",
+      "size": "9,984,670 km²",
+      "population": 38929902,
+      "currency": "Canadian dollar",
+      "president": "Justin Trudeau",
+      "flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Flag_of_Canada.svg/320px-Flag_of_Canada.svg.png"
+    },
+    {
+      "name": "France",
+      "capital": "Paris",
+      "size": "643,801 km²",
+      "population": 67909000,
+      "currency": "Euro",
+      "president": "Emmanuel Macron",
+      "flag": "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png"
+    },
+    {
+      "name": "Japan",
+      "capital": "Tokyo",
+      "size": "377,975 km²",
+      "population": 125300000,
+      "currency": "Yen",
+      "president": "Fumio Kishida",
+      "flag": "https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/Flag_of_Japan.svg/320px-Flag_of_Japan.svg.png"
+    },
+    {
+      "name": "Germany",
+      "capital": "Berlin",
+      "size": "357,022 km²",
+      "population": 83149300,
+      "currency": "Euro",
+      "president": "Frank-Walter Steinmeier",
+      "flag": "https://upload.wikimedia.org/wikipedia/en/thumb/b/ba/Flag_of_Germany.svg/320px-Flag_of_Germany.svg.png"
+    },
+    {
+      "name": "Brazil",
+      "capital": "Brasília",
+      "size": "8,515,767 km²",
+      "population": 203062512,
+      "currency": "Brazilian real",
+      "president": "Luiz Inácio Lula da Silva",
+      "flag": "https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/320px-Flag_of_Brazil.svg.png"
+    },
+    {
+      "name": "Australia",
+      "capital": "Canberra",
+      "size": "7,692,024 km²",
+      "population": 26140349,
+      "currency": "Australian dollar",
+      "president": "Anthony Albanese",
+      "flag": "https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Flag_of_Australia.svg/320px-Flag_of_Australia.svg.png"
+    },
+    {
+      "name": "Mexico",
+      "capital": "Mexico City",
+      "size": "1,964,375 km²",
+      "population": 126014024,
+      "currency": "Mexican peso",
+      "president": "Claudia Sheinbaum Pardo",
+      "flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Flag_of_Mexico.svg/320px-Flag_of_Mexico.svg.png"
+    },
+    {
+      "name": "Italy",
+      "capital": "Rome",
+      "size": "301,340 km²",
+      "population": 58870762,
+      "currency": "Euro",
+      "president": "Sergio Mattarella",
+      "flag": "https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Flag_of_Italy.svg/320px-Flag_of_Italy.svg.png"
+    },
+    {
+      "name": "India",
+      "capital": "New Delhi",
+      "size": "3,287,263 km²",
+      "population": 1417173173,
+      "currency": "Indian rupee",
+      "president": "Droupadi Murmu",
+      "flag": "https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/320px-Flag_of_India.svg.png"
+    }
+  ]
+}
