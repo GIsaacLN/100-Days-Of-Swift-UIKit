@@ -43,6 +43,21 @@
             </objects>
             <point key="canvasLocation" x="881.67938931297704" y="3.5211267605633805"/>
         </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="9pu-Ca-YmY">
+            <objects>
+                <viewController storyboardIdentifier="DetailWebVC" id="pdv-PG-3Vp" customClass="DetailViewController" customModule="Project16" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fyL-8v-KBI">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ohq-hV-ZjW"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zi8-2N-85i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1769" y="4"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="fji-2w-5mr">
             <objects>
