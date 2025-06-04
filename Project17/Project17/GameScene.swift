@@ -20,6 +20,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let possibleEnemies = ["ball", "hammer", "tv"]
     var isGameOver = false
     var gameTimer: Timer?
+    var enemyCount = 0
+    var secondsSubstraction = 0
     
     override func didMove(to view: SKView) {
         backgroundColor = .black
@@ -46,11 +48,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self
         
-        gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
     }
     
     @objc func createEnemy() {
         guard let enemy = possibleEnemies.randomElement() else { return }
+        enemyCount += 1
         
         let sprite = SKSpriteNode(imageNamed: enemy)
         sprite.position = CGPoint(x: 1200, y: Int.random(in: 50...736))
@@ -62,6 +65,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sprite.physicsBody?.angularVelocity = 5
         sprite.physicsBody?.linearDamping = 0
         sprite.physicsBody?.angularDamping = 0
+        
+        if ((enemyCount % 20) == 0) {
+            secondsSubstraction += 1
+            gameTimer?.invalidate()
+            gameTimer = Timer.scheduledTimer(timeInterval: max(1-(Double(secondsSubstraction)*0.1), 0.2), target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: self)
+        
+        if !isGameOver {
+            let explosion = SKEmitterNode(fileNamed: "explosion")!
+            explosion.position = player.position
+            addChild(explosion)
+            
+            gameTimer?.invalidate()
+            player.removeFromParent()
+            isGameOver = true
+        }
+        
     }
      
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -81,6 +106,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let explosion = SKEmitterNode(fileNamed: "explosion")!
         explosion.position = player.position
         addChild(explosion)
+        
+        gameTimer?.invalidate()
         
         player.removeFromParent()
         
