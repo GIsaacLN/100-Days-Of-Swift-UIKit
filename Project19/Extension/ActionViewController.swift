@@ -19,7 +19,11 @@ class ActionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+        let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+        
+        let list = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(showList))
+        
+        navigationItem.rightBarButtonItems = [done, list]
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -34,15 +38,36 @@ class ActionViewController: UIViewController {
                     self?.pageTitle = javaScriptValues["title"] as? String ?? ""
                     self?.pageURL = javaScriptValues["URL"] as? String ?? ""
                     
+                    let defaults = UserDefaults.standard
+                    let curScript = defaults.string(forKey: self?.pageURL ?? "")
+
                     DispatchQueue.main.async {
+                        self?.script.text = curScript
                         self?.title = self?.pageTitle
                     }
                 }
             }
         }
     }
+    
+    @objc func showList() {
+        let ac = UIAlertController(title: "Select prewritten script", message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "Alert Title", style: .default, handler: writePrewrittenScript))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(ac, animated: true)
+    }
+    
+    func writePrewrittenScript(action: UIAlertAction) {
+        if action.title == "Alert Title" {
+            script.text = "alert(document.title);"
+        }
+    }
 
     @IBAction func done() {
+        let defaults = UserDefaults.standard
+        let curText = script.text
+        defaults.set(curText, forKey: self.pageURL)
+
         let item = NSExtensionItem()
         let argument: NSDictionary = ["customJavaScript": script.text]
         let webDictionary: NSDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: argument]
@@ -50,6 +75,7 @@ class ActionViewController: UIViewController {
         item.attachments = [customJavaScript]
 
         extensionContext?.completeRequest(returningItems: [item])
+        
     }
 
     @objc func adjustForKeyboard(notification: Notification) {
