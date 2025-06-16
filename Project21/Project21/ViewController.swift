@@ -30,6 +30,10 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     }
     
     @objc func scheduleLocal() {
+        scheduleLocalNotification(5)
+    }
+    
+    func scheduleLocalNotification(_ seconds: Double) {
         registerCategories()
         
         let center = UNUserNotificationCenter.current()
@@ -47,7 +51,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         dateComponents.minute = 30
         
         //let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
 
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         center.add(request)
@@ -58,7 +62,8 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         center.delegate = self
         
         let show = UNNotificationAction(identifier: "show", title: "Show me more...", options: .foreground)
-        let category = UNNotificationCategory(identifier: "alarm", actions: [show], intentIdentifiers: [])
+        let later = UNNotificationAction(identifier: "later", title: "Remind me later", options: .destructive)
+        let category = UNNotificationCategory(identifier: "alarm", actions: [show, later], intentIdentifiers: [])
         
         center.setNotificationCategories([category])
     }
@@ -71,12 +76,20 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
             
             switch response.actionIdentifier {
             case UNNotificationDefaultActionIdentifier:
-                print("Default identifiers")
+                let ac = UIAlertController(title: "Default Identifier", message: nil, preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "OK", style: .default))
+                present(ac, animated: true)
             case "show":
-                print("Show more information...")
+                let ac = UIAlertController(title: "Show more information...", message: nil, preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "OK", style: .default))
+                present(ac, animated: true)
+            case "later":
+                scheduleLocalNotification(86400)
             default:
                 break
             }
+            
+
         }
         
         completionHandler()

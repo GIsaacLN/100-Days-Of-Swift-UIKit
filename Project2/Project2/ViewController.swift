@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import UserNotifications
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     @IBOutlet var button1: UIButton!
     @IBOutlet var button2: UIButton!
     @IBOutlet var button3: UIButton!
@@ -26,6 +27,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        registerNotification()
+        scheduleLocalNotification()
+        
         countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(getScore))
@@ -41,6 +45,44 @@ class ViewController: UIViewController {
         let defaults = UserDefaults.standard
         highscore = defaults.integer(forKey: "highscore")
         askQuestion()
+    }
+
+    func registerNotification() {
+        let center = UNUserNotificationCenter.current()
+        
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if granted {
+                print("Permission granted")
+            } else {
+                print("No notifications allowed")
+            }
+        }
+    }
+    
+    func scheduleLocalNotification() {
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+
+        center.removeAllPendingNotificationRequests()
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Wanna play again?"
+        content.body = "Time to play some time again"
+        content.sound = UNNotificationSound.default
+        
+        let daySeconds: Double = 86400
+        //let daySeconds: Double = 10
+        
+        for day in 1...7 {
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: daySeconds*Double(day), repeats: false)
+            
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            center.add(request)
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        scheduleLocalNotification()
     }
 
     func askQuestion(action: UIAlertAction? = nil) {
