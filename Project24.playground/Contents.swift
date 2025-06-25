@@ -87,3 +87,36 @@ attributedString2.addAttribute(.font, value: UIFont.systemFont(ofSize: 16), rang
 attributedString2.addAttribute(.font, value: UIFont.systemFont(ofSize: 24), range: NSRange(location: 8, length: 1))
 attributedString2.addAttribute(.font, value: UIFont.systemFont(ofSize: 32), range: NSRange(location: 10, length: 4))
 attributedString2.addAttribute(.font, value: UIFont.systemFont(ofSize: 40), range: NSRange(location: 15, length: 6))
+
+extension String {
+    func withPrefix(_ string: String) -> String {
+        if self.hasPrefix(string) {
+            return self
+        } else {
+            return string + self
+        }
+    }
+    
+    var isNumeric: Bool {
+        for char in self {
+            guard let num = Double(String(char)) else { continue }
+            return true
+        }
+        return false
+    }
+    
+    var lines: [String] {
+        self.components(separatedBy: "\n")
+    }
+}
+
+var pet = "pet"
+pet.withPrefix("car")
+
+var num = "pe2t"
+pet.isNumeric
+num.isNumeric
+
+var lines = "this\nis\na\ntest"
+lines.lines
+num.lines
