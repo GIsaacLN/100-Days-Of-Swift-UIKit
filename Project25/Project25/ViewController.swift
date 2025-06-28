@@ -18,9 +18,13 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         super.viewDidLoad()
         
         title = "Selfie Share"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(importPicture))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showConnectionPrompt))
-        
+        let cameraBtn = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(importPicture))
+        let msgBtn = UIBarButtonItem(title: "Message", style: .plain, target: self, action: #selector(promptForText))
+        let listBtn = UIBarButtonItem(title: "Peers", style: .plain, target: self, action: #selector(listPeers))
+
+        navigationItem.rightBarButtonItems = [cameraBtn, msgBtn, listBtn]
+        navigationItem.leftBarButtonItem = .init(barButtonSystemItem: .add, target: self, action: #selector(showConnectionPrompt))
+
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         mcSession?.delegate = self
     }
@@ -37,6 +41,40 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         }
         
         return cell
+    }
+    
+    @objc func promptForText() {
+        let ac = UIAlertController(title: "Send Message", message: nil, preferredStyle: .alert)
+        ac.addTextField { $0.placeholder = "Enter text…" }
+        ac.addAction(.init(title: "Send", style: .default) { [weak self] _ in
+            if let text = ac.textFields?.first?.text {
+                self?.send(text: text)
+            }
+        })
+        ac.addAction(.init(title: "Cancel", style: .cancel))
+        present(ac, animated: true)
+    }
+    
+    @objc func listPeers() {
+        guard let session = mcSession else { return }
+        let names = session.connectedPeers.map { $0.displayName }.joined(separator: "\n")
+        let message = names.isEmpty ? "No peers connected" : names
+
+        let ac = UIAlertController(title: "Connected Peers", message: message, preferredStyle: .alert)
+        ac.addAction(.init(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
+    
+    func send(text: String) {
+        guard let session = mcSession, !session.connectedPeers.isEmpty else { return }
+        let data = Data(text.utf8)
+        do {
+            try session.send(data, toPeers: session.connectedPeers, with: .reliable)
+        } catch {
+            let ac = UIAlertController(title: "Send Error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(.init(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
     }
     
     func startHosting(action: UIAlertAction) {
@@ -102,6 +140,15 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
             print("Connecting: \(peerID.displayName)")
         case .notConnected:
             print("Not Connected: \(peerID.displayName)")
+            DispatchQueue.main.async { [weak self] in
+                let ac = UIAlertController(
+                    title: "Peer Disconnected",
+                    message: "\(peerID.displayName) has disconnected",
+                    preferredStyle: .alert
+                )
+                ac.addAction(.init(title: "OK", style: .default))
+                self?.present(ac, animated: true)
+            }
         @unknown default:
             print("Unknown state received: \(peerID.displayName)")
         }
@@ -112,6 +159,15 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
             if let image = UIImage(data: data) {
                 self?.images.insert(image, at: 0)
                 self?.collectionView.reloadData()
+            } else {
+                let text = String(decoding: data, as: UTF8.self)
+                let ac = UIAlertController(
+                    title: "\(peerID.displayName) says:",
+                    message: text,
+                    preferredStyle: .alert
+                )
+                ac.addAction(.init(title: "OK", style: .default))
+                self?.present(ac, animated: true)
             }
         }
     }
