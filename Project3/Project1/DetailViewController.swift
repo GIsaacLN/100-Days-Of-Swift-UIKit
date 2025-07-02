@@ -37,7 +37,7 @@ class DetailViewController: UIViewController {
     }
     
     @objc func shareTapped() {
-        guard let image = imageView.image?.jpegData(compressionQuality: 0.8) else {
+        guard let image = imageView.image else {
             print("No image to share")
             return
         }
@@ -46,9 +46,37 @@ class DetailViewController: UIViewController {
             return
         }
         
-        let activityViewController = UIActivityViewController(activityItems: [image, selectedImageName], applicationActivities: nil)
+        let img = addTextToImage(image: image)
+        
+        guard let compressedImage = img.jpegData(compressionQuality: 0.8) else {
+            print("Couldn't compress image")
+            return
+        }
+                        
+        let activityViewController = UIActivityViewController(activityItems: [compressedImage, selectedImageName], applicationActivities: nil)
         activityViewController.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
         present(activityViewController, animated: true)
+    }
+    
+    func addTextToImage(image: UIImage) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: image.size)
+        let img = renderer.image { ctx in
+            image.draw(at: CGPoint(x: 0, y: 0))
+            
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .left
+            
+            let attrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 32),
+                .paragraphStyle: paragraphStyle
+            ]
+            
+            let string = "From Storm Viewer"
+            let attributedString = NSAttributedString(string: string, attributes: attrs)
+            
+            attributedString.draw(with: CGRect(x: 32, y: 32, width: 448, height: 448), options: .usesLineFragmentOrigin, context: nil)
+        }
+        return img
     }
 
     /*
