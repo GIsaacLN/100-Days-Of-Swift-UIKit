@@ -16,6 +16,12 @@ class ViewController: UIViewController {
 
         title = "Nothing to see here"
         
+        let done = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(saveSecretMessage))
+        done.isHidden = true
+        navigationItem.rightBarButtonItem = done
+        
+        KeychainWrapper.standard.set("Psw123?", forKey: "Password")
+
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -41,8 +47,20 @@ class ViewController: UIViewController {
                 }
             }
         } else {
-            let ac = UIAlertController(title: "Biometry unavailable", message: "Your device is not configured for biometric authentication.", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            let ac = UIAlertController(title: "Biometry unavailable", message: "Use your password to login.", preferredStyle: .alert)
+            ac.addTextField()
+            ac.addAction(UIAlertAction(title: "Login", style: .default) {[weak self] _ in
+                guard let curPsw = ac.textFields?.first?.text else { return }
+                if let goodPsw = KeychainWrapper.standard.string(forKey: "Password") {
+                    if goodPsw == curPsw {
+                        self?.unlockSecretMessage()
+                    } else {
+                        let ac = UIAlertController(title: "Incorrect password", message: "Try again!", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        self?.present(ac, animated: true)
+                    }
+                }
+            })
             self.present(ac, animated: true)
         }
     }
@@ -50,7 +68,7 @@ class ViewController: UIViewController {
     func unlockSecretMessage() {
         secret.isHidden = false
         title = "Secret stuff!"
-        
+        navigationItem.rightBarButtonItem?.isHidden = false
         if let text = KeychainWrapper.standard.string(forKey: "SecretMessage") {
             secret.text = text
         }
@@ -59,9 +77,11 @@ class ViewController: UIViewController {
     @objc func saveSecretMessage() {
         guard secret.isHidden == false else { return }
         
+        
         KeychainWrapper.standard.set(secret.text, forKey: "SecretMessage")
         secret.resignFirstResponder()
         secret.isHidden = true
+        navigationItem.rightBarButtonItem?.isHidden = true
         title = "Nothing to see here"
     }
     

@@ -5,15 +5,77 @@
 //  Created by Gustavo Isaac Lopez Nunez on 29/04/25.
 //
 
+import LocalAuthentication
 import UIKit
 
 class ViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var people = [Person]()
+    @IBOutlet var authenticateButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewPerson))
+        navigationItem.leftBarButtonItem?.isHidden = true
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(savePeople), name: UIApplication.willResignActiveNotification, object: nil)
+    }
+    
+    @IBAction func authenticateTapped(_ sender: Any) {
+        let context = LAContext()
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Identify yourself!"
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, authenticationError in
+                DispatchQueue.main.async {
+                    if success {
+                        self?.unlock()
+                    } else {
+                        let ac = UIAlertController(title: "Authentication failed", message: "You could not be verified; please, try again.", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        self?.present(ac, animated: true)
+                    }
+                }
+            }
+        } else {
+            let ac = UIAlertController(title: "Biometry unavailable", message: "Your device is not configured for biometric authentication.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(ac, animated: true)
+        }
+    }
+    
+    func unlock() {
+        let defaults = UserDefaults.standard
+        
+        if let savedPeople = defaults.data(forKey: "SavedPeople") {
+            let decoder = JSONDecoder()
+            if let loadedPeople = try? decoder.decode([Person].self, from: savedPeople) {
+                people = loadedPeople
+                collectionView.reloadData()
+            }
+        } else {
+            people = []
+        }
+        authenticateButton.isHidden = true
+        navigationItem.leftBarButtonItem?.isHidden = false
+    }
+    
+    @objc func savePeople() {
+        guard authenticateButton.isHidden == true else { return }
+        
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(people) {
+            let defaults = UserDefaults.standard
+            defaults.set(encoded, forKey: "SavedPeople")
+        }
+        
+        people.removeAll()
+        collectionView.reloadData()
+        authenticateButton.isHidden = false
+        navigationItem.leftBarButtonItem?.isHidden = true
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
