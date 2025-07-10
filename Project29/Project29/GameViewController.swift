@@ -17,6 +17,20 @@ class GameViewController: UIViewController {
     @IBOutlet var velocityLabel: UILabel!
     @IBOutlet var launchButton: UIButton!
     @IBOutlet var playerNumber: UILabel!
+    @IBOutlet var playerOneScore: UILabel!
+    @IBOutlet var playerTwoScore: UILabel!
+    @IBOutlet var windLabel: UILabel!
+    
+    var pOneScore = 0 {
+        didSet {
+            playerOneScore.text = "\(pOneScore)"
+        }
+    }
+    var pTwoScore = 0 {
+        didSet {
+            playerTwoScore.text = "\(pTwoScore)"
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +44,11 @@ class GameViewController: UIViewController {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
                 
-                // Present the scene
-                view.presentScene(scene)
-                
                 currentGame = scene as? GameScene
                 currentGame.viewController = self
+
+                // Present the scene
+                view.presentScene(scene)                
             }
             
             view.ignoresSiblingOrder = true
@@ -80,6 +94,54 @@ class GameViewController: UIViewController {
         launchButton.isHidden = false
     }
     
+    func addScore(toPlayer currentPlayer: Int) {
+        if currentPlayer == 1 {
+            pOneScore += 1
+        } else {
+            pTwoScore += 1
+        }
+        if pOneScore == 3 || pTwoScore == 3 {
+            endGame()
+        }
+    }
+    
+    func endGame() {
+        if pOneScore == 3 {
+            playerNumber.text = "PLAYER 1 WINS!"
+        } else if pTwoScore == 3 {
+            playerNumber.text = "PLAYER 2 WINS!"
+        }
+        
+        angleSlider.isHidden    = true
+        angleLabel.isHidden     = true
+        velocitySlider.isHidden = true
+        velocityLabel.isHidden  = true
+        launchButton.isHidden   = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.restartGame()
+        }
+    }
+
+    private func restartGame() {
+        pOneScore = 0
+        pTwoScore = 0
+        playerOneScore.text = "0"
+        playerTwoScore.text = "0"
+
+        playerNumber.text = "<<< PLAYER ONE"
+        activatePlayer(number: 1)
+
+        if let skView = self.view as? SKView,
+           let newScene = SKScene(fileNamed: "GameScene") as? GameScene {
+            newScene.scaleMode = .aspectFill
+            newScene.viewController = self
+            currentGame = newScene
+            skView.presentScene(newScene,
+                                transition: .doorway(withDuration: 1.0))
+        }
+    }
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown

@@ -28,6 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         createBuildings()
         createPlayers()
+        createWind()
         
         physicsWorld.contactDelegate = self
     }
@@ -66,8 +67,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(explosion)
         }
         
+        let winnerPlayer: Int
+        
+        if player.name == "player2" {
+            winnerPlayer = 1
+        } else {
+            winnerPlayer = 2
+        }
+        
+        self.viewController.addScore(toPlayer: winnerPlayer)
+
         player.removeFromParent()
         banana.removeFromParent()
+        
+        if viewController.pOneScore == 3 || viewController.pTwoScore == 3 {
+            return
+        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let newGame = GameScene(size: self.size)
@@ -79,6 +94,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let transition = SKTransition.doorway(withDuration: 1.5)
             self.view?.presentScene(newGame, transition: transition)
+        }
+    }
+    
+    func createWind() {
+        guard viewController != nil else { return }
+        let direction = Bool.random() ? 1.0 : -1.0
+        let strenght = Double.random(in: 0...5)
+        physicsWorld.gravity = CGVector(dx: direction * strenght, dy: physicsWorld.gravity.dy)
+        
+        if direction == -1.0 {
+            viewController.windLabel.text = String(format: "WIND < %.2f STRENGHT", strenght)
+        } else {
+            viewController.windLabel.text = String(format: "WIND > %.2f STRENGHT", strenght)
         }
     }
     
