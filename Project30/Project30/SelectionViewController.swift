@@ -10,7 +10,7 @@ import UIKit
 
 class SelectionViewController: UITableViewController {
 	var items = [String]() // this is the array that will store the filenames to load
-	var viewControllers = [UIViewController]() // create a cache of the detail view controllers for faster loading
+    var images = [UIImage]()
 	var dirty = false
 
     override func viewDidLoad() {
@@ -25,13 +25,17 @@ class SelectionViewController: UITableViewController {
 		// load all the JPEGs into our array
 		let fm = FileManager.default
 
-		if let tempItems = try? fm.contentsOfDirectory(atPath: Bundle.main.resourcePath!) {
-			for item in tempItems {
-				if item.range(of: "Large") != nil {
-					items.append(item)
-				}
-			}
-		}
+        guard let resourcePath = Bundle.main.resourcePath else {
+            print("⚠️ resourcePath was nil")
+            return
+        }
+
+        do {
+            let allFiles = try fm.contentsOfDirectory(atPath: resourcePath)
+            items = allFiles.filter { $0.contains("Large") }
+        } catch {
+            print("⚠️ Failed to read bundle contents: \(error)")
+        }
     }
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -105,7 +109,11 @@ class SelectionViewController: UITableViewController {
 		dirty = false
 
 		// add to our view controller cache and show
-		viewControllers.append(vc)
-		navigationController!.pushViewController(vc, animated: true)
+		navigationController?.pushViewController(vc, animated: true)
 	}
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
 }

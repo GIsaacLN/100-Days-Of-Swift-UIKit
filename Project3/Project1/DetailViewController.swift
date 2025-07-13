@@ -9,8 +9,8 @@ import UIKit
 
 class DetailViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
-    var selectedImage: String?
-    var titleString: String?
+    var selectedImage: String!
+    var titleString: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +21,8 @@ class DetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         
         // Do any additional setup after loading the view.
-        if let imageToLoad = selectedImage {
-            imageView.image = UIImage(named: imageToLoad)
+        if let imageToLoad = selectedImage, let path = Bundle.main.path(forResource: imageToLoad, ofType: nil) {
+            imageView.image = UIImage(contentsOfFile: path)
         }
     }
     
